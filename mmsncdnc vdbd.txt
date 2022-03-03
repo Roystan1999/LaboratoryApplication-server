@@ -1,0 +1,60 @@
+
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:' ',
+    glucometryStatus:' ',
+    thyroidStatus:' '
+}
+,
+
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:' ',
+    glucometryStatus:' ',
+    thyroidStatus:' '
+}
+,
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:' ',
+    glucometryStatus:' ',
+    thyroidStatus:' '
+}
+,
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:' ',
+    glucometryStatus:' ',
+    thyroidStatus:' '
+},
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:' ',
+    glucometryStatus:' ',
+    thyroidStatus:' '
+},
+{
+    id:"",
+    sampleDate:"",
+    userid:"",
+    hametologyStatus:'n/a ',
+    glucometryStatus:'view ',
+    thyroidStatus:'pending'
+}
+
+
+
+<button onClick={modal={true}}>{ hametologyStatus="view" ?view details: n/a}</button>
+
+
+
