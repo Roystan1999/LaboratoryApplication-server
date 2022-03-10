@@ -1,4 +1,6 @@
 const app=require("./app")
+const logger = require('./config/logger.js')
+
 
 const port = 3002;
 

@@ -43,15 +43,7 @@ describe("POST/users/login",()=>{
      },1000)
  })
 
- describe("GET/samples",()=>{
-    test(("success"),async()=>{
-      const res= await request(app)
-      .get('/users/samples')
-      expect(res.statusCode).toEqual(200)
 
-
-    },1000)
-})
 
 describe("GET/edit",()=>{
     test(("success"),async()=>{

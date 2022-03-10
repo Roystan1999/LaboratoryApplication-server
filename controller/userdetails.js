@@ -1,5 +1,5 @@
 const userModel = require('../models/userdetails')
-const sampleData=require('../models/SampleData')
+const sampleData = require('../models/SampleData')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 SECRET_KEY = 'ROYDS'
@@ -7,11 +7,11 @@ SECRET_KEY = 'ROYDS'
 
 
 //Registration Logic
-const register = async(req, res, next) => {
+const register = async (req, res, next) => {
     let { name, email, password, role } = req.body
     try {
         const emailExists = await userModel.findOne({ email: email }).lean()
-        if (emailExists) {  
+        if (emailExists) {
             res.status(400).json({
                 error: true,
                 message: "email already exists",
@@ -28,7 +28,7 @@ const register = async(req, res, next) => {
                 email,
                 password: hashedPassword,
                 role
-            
+
             }])
             res.status(200).json({
                 error: false,
@@ -38,6 +38,7 @@ const register = async(req, res, next) => {
 
         }
     } catch (err) {
+        res.redirect('/error')
         next(err)
 
     }
@@ -45,87 +46,90 @@ const register = async(req, res, next) => {
 }
 
 //LoginLogic
-const login = async(req, res, next) => {
-        let { email, password, name } = req.body
+const login = async (req, res, next) => {
+    let { email, password, name } = req.body
 
-        try {
-            const userData = await userModel.findOne({ email }).lean()
+    try {
+        const userData = await userModel.findOne({ email }).lean()
 
-            if (userData) {
-                let { name, role } = userData
+        if (userData) {
+            let { name, role } = userData
 
-                const isPasswordmatch = await bcrypt.compare(password, userData.password)
-                if (isPasswordmatch) {
+            const isPasswordmatch = await bcrypt.compare(password, userData.password)
+            if (isPasswordmatch) {
 
-                    const payload = { name, role }
-                    
-                    const token = await jwt.sign(payload, SECRET_KEY, {
-                        expiresIn: "5h"
-                    })
+                const payload = { name, role }
 
-                    res.status(200).json({
-                        error: false,
-                        message: "login successfull",
-                        data: {
-                            name,
-                            role,
-                            token
+                const token = await jwt.sign(payload, SECRET_KEY, {
+                    expiresIn: "5h"
+                })
 
-                        }
-                    })
-                } else {
-                    res.status(401).json({
-                        error: true,
-                        message: "Invalid Password",
-                        data: null
-                    })
-                }
+                res.status(200).json({
+                    error: false,
+                    message: "login successfull",
+                    data: {
+                        name,
+                        role,
+                        token
+
+                    }
+                })
             } else {
-                res.status(400).json({
+
+                res.status(401).json({
                     error: true,
-                    message: "User Not Registered",
+                    message: "Invalid Password",
                     data: null
                 })
             }
-        } catch (err) {
-            next(err)
-
+        } else {
+            res.status(400).json({
+                error: true,
+                message: "User Not Registered",
+                data: null
+            })
         }
+    } catch (err) {
+        res.redirect('/error')
 
-
-    }
- 
-const samples= async(req,res,next)=>{
-    try{
-        const samples= await sampleData.find().lean()
-         res.json({
-        error:false,
-        message:"",
-        data:samples
-        })
-    }
-    catch(err){
         next(err)
+
     }
+
+
 }
 
-const editData= async(req,res)=>{
-    try{
-        const samples= await userModel.find().lean()
-         res.json({
-        error:false,
-        message:"",
-        data:samples
-        })
-    }
-    catch(err){
-        next(err)
-    }
-}
-
-const edituser = async(req, res, next) => {
+const samples = async (req, res, next) => {
     try {
-        let { _id, name, email,  role} = req.body
+        const samples = await sampleData.find().lean()
+        res.json({
+            error: false,
+            message: "",
+            data: samples
+        })
+    }
+    catch (err) {
+        next(err)
+    }
+}
+
+const editData = async (req, res) => {
+    try {
+        const samples = await userModel.find().lean()
+        res.json({
+            error: false,
+            message: "",
+            data: samples
+        })
+    }
+    catch (err) {
+        next(err)
+    }
+}
+
+const edituser = async (req, res, next) => {
+    try {
+        let { _id, name, email, role } = req.body
         await userModel.updateOne({ _id }, {
             $set: {
                 name,
@@ -136,7 +140,7 @@ const edituser = async(req, res, next) => {
         res.json({
             error: false,
             message: 'edit success',
-            data: { name, email,  role }
+            data: { name, email, role }
         })
     } catch (err) {
         next(err)
